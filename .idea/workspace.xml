@@ -4,15 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="87634863-5cd0-438c-9b08-4c199033819c" name="Changes" comment="Start project with spring initializr">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" />
+    <list default="true" id="87634863-5cd0-438c-9b08-4c199033819c" name="Changes" comment="Refactor .idea and .mvn">
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.mvn/wrapper/maven-wrapper.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,6 +62,7 @@
     "RequestMappingsPanelWidth0": "75",
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.typescript.service.memoryLimit.init": "true",
     "Spring Boot.TrainReliabilityApplication.executor": "Run",
     "git-widget-placeholder": "dev",
@@ -116,7 +112,7 @@
       <option name="presentableId" value="Default" />
       <updated>1774814267467</updated>
       <workItem from="1774814268555" duration="1257000" />
-      <workItem from="1774855310807" duration="533000" />
+      <workItem from="1774855310807" duration="1759000" />
     </task>
     <task id="LOCAL-00001" summary="Start project with spring initializr">
       <option name="closed" value="true" />
@@ -126,7 +122,15 @@
       <option name="project" value="LOCAL" />
       <updated>1774855406280</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Refactor .idea and .mvn">
+      <option name="closed" value="true" />
+      <created>1774855882427</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1774855882427</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -157,6 +161,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Start project with spring initializr" />
-    <option name="LAST_COMMIT_MESSAGE" value="Start project with spring initializr" />
+    <MESSAGE value="Refactor .idea and .mvn" />
+    <option name="LAST_COMMIT_MESSAGE" value="Refactor .idea and .mvn" />
   </component>
 </project>
