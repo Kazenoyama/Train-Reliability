@@ -2,9 +2,7 @@ package com.tr.train_reliability.mapper;
 
 import org.springframework.stereotype.Component;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,11 +12,14 @@ import java.util.Map;
 @Component
 public class CsvReader {
 
-    public List<Map<String, String>> read(String path) {
+    public List<Map<String, String>> read(InputStream is) {
+
         List<Map<String, String>> rows = new ArrayList<>();
         String delimiter = ";";
 
-        try (BufferedReader br = new BufferedReader(new FileReader(path, StandardCharsets.UTF_8))) {
+        try (BufferedReader br = new BufferedReader(
+                new InputStreamReader(is, StandardCharsets.UTF_8))) {
+
             String headerLine = br.readLine();
             if (headerLine == null) return rows;
 
@@ -38,10 +39,12 @@ public class CsvReader {
 
                     row.put(headers[i], value.isEmpty() ? null : value);
                 }
+
                 rows.add(row);
             }
+
         } catch (IOException e) {
-            throw new RuntimeException("Erreur lors de la lecture du CSV : " + e.getMessage());
+            throw new RuntimeException("Erreur lors de la lecture du CSV", e);
         }
 
         return rows;

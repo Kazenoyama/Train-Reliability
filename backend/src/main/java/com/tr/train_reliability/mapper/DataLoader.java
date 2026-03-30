@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -27,21 +28,40 @@ public class DataLoader implements CommandLineRunner {
 
     @Override
     public void run(String... args){
+
         if(trainRepo.count() > 0){
             System.out.println("Data already loaded");
             return;
         }
+
         System.out.println("Loading data... ");
 
-        List<TrainRegularity> data = new ArrayList<>();
+        try {
+            List<TrainRegularity> data = new ArrayList<>();
 
-        List<Map<String, String>> terRows = csvReader.read("./src/main/resources/data/regularite-mensuelle-ter.csv");
-        terRows.forEach(row -> data.add(terMapper.map(row)));
-        List<Map<String, String>> transilienRows = csvReader.read("./src/main/resources/data/ponctualite-mensuelle-transilien.csv");
-        transilienRows.forEach(row -> data.add(transilienMapper.map(row)));
+            InputStream terStream = getClass()
+                    .getResourceAsStream("/data/regularite-mensuelle-ter.csv");
 
-        trainRepo.saveAll(data);
+            InputStream transilienStream = getClass()
+                    .getResourceAsStream("/data/ponctualite-mensuelle-transilien.csv");
 
-        System.out.println("Loaded" + data.size() + " rows");
+            if (terStream == null || transilienStream == null) {
+                throw new RuntimeException("CSV files not found in resources!");
+            }
+
+            List<Map<String, String>> terRows = csvReader.read(terStream);
+            terRows.forEach(row -> data.add(terMapper.map(row)));
+
+            List<Map<String, String>> transilienRows = csvReader.read(transilienStream);
+            transilienRows.forEach(row -> data.add(transilienMapper.map(row)));
+
+            trainRepo.saveAll(data);
+
+            System.out.println("Loaded " + data.size() + " rows");
+
+        } catch (Exception e) {
+            System.err.println("Error loading data");
+            e.printStackTrace();
+        }
     }
 }
