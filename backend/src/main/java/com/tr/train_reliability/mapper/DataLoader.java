@@ -26,6 +26,18 @@ public class DataLoader implements CommandLineRunner {
     @Autowired
     private TransilienMapper transilienMapper;
 
+    @Autowired
+    private TgvGMapper tgvGMapper;
+
+    @Autowired
+    private TgvAxeMapper tgvAxeMapper;
+
+    @Autowired
+    private TgvLiaisonMapper tgvLiaisonMapper;
+
+    @Autowired
+    private InterciteMapper interciteMapper;
+
     @Override
     public void run(String... args){
 
@@ -45,7 +57,20 @@ public class DataLoader implements CommandLineRunner {
             InputStream transilienStream = getClass()
                     .getResourceAsStream("/data/ponctualite-mensuelle-transilien.csv");
 
-            if (terStream == null || transilienStream == null) {
+            InputStream tgvGStream = getClass()
+                    .getResourceAsStream("/data/reglarite-mensuelle-tgv-nationale.csv");
+
+            InputStream tgvAxeStream = getClass()
+                    .getResourceAsStream("/data/regularite-mensuelle-tgv-axes.csv");
+
+            InputStream tgvLiaisonStream = getClass()
+                    .getResourceAsStream("/data/regularite-mensuelle-tgv-aqst.csv");
+
+            InputStream interciteStream = getClass()
+                    .getResourceAsStream("/data/regularite-mensuelle-intercites.csv");
+
+            if (terStream == null || transilienStream == null || tgvGStream == null
+                    || tgvAxeStream == null || tgvLiaisonStream == null || interciteStream == null) {
                 throw new RuntimeException("CSV files not found in resources!");
             }
 
@@ -54,6 +79,18 @@ public class DataLoader implements CommandLineRunner {
 
             List<Map<String, String>> transilienRows = csvReader.read(transilienStream);
             transilienRows.forEach(row -> data.add(transilienMapper.map(row)));
+
+            List<Map<String, String>> tgvGRows = csvReader.read(tgvGStream);
+            tgvGRows.forEach(row -> data.add(tgvGMapper.map(row)));
+
+            List<Map<String, String>> tgvAxeRows = csvReader.read(tgvAxeStream);
+            tgvAxeRows.forEach(row -> data.add(tgvAxeMapper.map(row)));
+
+            List<Map<String, String>> tgvLiaisonRows = csvReader.read(tgvLiaisonStream);
+            tgvLiaisonRows.forEach(row -> data.add(tgvLiaisonMapper.map(row)));
+
+            List<Map<String, String>> interciteRows = csvReader.read(interciteStream);
+            interciteRows.forEach(row -> data.add(interciteMapper.map(row)));
 
             trainRepo.saveAll(data);
 

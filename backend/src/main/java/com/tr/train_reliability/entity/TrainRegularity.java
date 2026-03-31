@@ -18,21 +18,16 @@ public class TrainRegularity {
 
     private Double punctualityRate;
 
-    private Double delayAvg;
-    private Double cancellationRate;
-
     public TrainRegularity() {
     }
 
-    public TrainRegularity(Long id, LocalDate date, String trainType, String dataSetType, String label, Double punctualityRate, Double delayAvg, Double cancellationRate) {
+    public TrainRegularity(Long id, LocalDate date, String trainType, String dataSetType, String label, Double punctualityRate) {
         this.id = id;
         this.date = date;
         this.trainType = trainType;
         this.dataSetType = dataSetType;
         this.label = label;
         this.punctualityRate = punctualityRate;
-        this.delayAvg = delayAvg;
-        this.cancellationRate = cancellationRate;
     }
 
     public Long getId() {
@@ -81,22 +76,6 @@ public class TrainRegularity {
 
     public void setPunctualityRate(Double punctualityRate) {
         this.punctualityRate = punctualityRate;
-    }
-
-    public Double getDelayAvg() {
-        return delayAvg;
-    }
-
-    public void setDelayAvg(Double delayAvg) {
-        this.delayAvg = delayAvg;
-    }
-
-    public Double getCancellationRate() {
-        return cancellationRate;
-    }
-
-    public void setCancellationRate(Double cancellationRate) {
-        this.cancellationRate = cancellationRate;
     }
 }
 
