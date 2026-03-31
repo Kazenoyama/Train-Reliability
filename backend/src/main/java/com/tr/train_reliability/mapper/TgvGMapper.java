@@ -4,10 +4,11 @@ import com.tr.train_reliability.entity.TrainRegularity;
 import com.tr.train_reliability.utility.Utility;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import java.util.Map;
 
 @Component
-public class TerMapper {
+public class TgvGMapper {
 
     @Autowired
     private Utility util;
@@ -15,11 +16,11 @@ public class TerMapper {
     public TrainRegularity map(Map<String, String> row){
         TrainRegularity tr = new TrainRegularity();
 
-        tr.setTrainType("TER");
-        tr.setDataSetType("REGION");
-        tr.setLabel(row.get("Région"));
+        tr.setTrainType("TGV");
+        tr.setDataSetType("GLOBAL");
+        tr.setLabel("TGV Global");
         tr.setDate(util.parseDate(row.get("Date")));
-        tr.setPunctualityRate(util.parseDouble(row.get("Taux de régularité")));
+        tr.setPunctualityRate(util.parseDouble(row.get("Régularité composite")));
 
         return tr;
     }
