@@ -1,35 +1,38 @@
 package com.tr.train_reliability.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-
+import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 public class TrainRegularity {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private LocalDate date;
+
     private String trainType;
     private String dataSetType;
     private String label;
 
     private Double punctualityRate;
 
+    private Double delayAvg;
+    private Double cancellationRate;
+
     public TrainRegularity() {
     }
 
-    public TrainRegularity(Long id, LocalDate date, String trainType, String dataSetType, String label, Double punctualityRate) {
+    public TrainRegularity(Long id, LocalDate date, String trainType, String dataSetType, String label, Double punctualityRate, Double delayAvg, Double cancellationRate) {
         this.id = id;
         this.date = date;
         this.trainType = trainType;
         this.dataSetType = dataSetType;
         this.label = label;
         this.punctualityRate = punctualityRate;
+        this.delayAvg = delayAvg;
+        this.cancellationRate = cancellationRate;
     }
 
     public Long getId() {
@@ -78,6 +81,22 @@ public class TrainRegularity {
 
     public void setPunctualityRate(Double punctualityRate) {
         this.punctualityRate = punctualityRate;
+    }
+
+    public Double getDelayAvg() {
+        return delayAvg;
+    }
+
+    public void setDelayAvg(Double delayAvg) {
+        this.delayAvg = delayAvg;
+    }
+
+    public Double getCancellationRate() {
+        return cancellationRate;
+    }
+
+    public void setCancellationRate(Double cancellationRate) {
+        this.cancellationRate = cancellationRate;
     }
 }
 
