@@ -18,7 +18,7 @@ public class InterciteMapper {
 
         tr.setTrainType("INTERCITES");
         tr.setDataSetType("LIAISON");
-        tr.setLabel(row.get("Gare de départ") + " -> " + row.get("Gare d'arrivée"));
+        tr.setLabel(row.get("Départ") + " -/- " + row.get("Arrivée"));
         tr.setDate(util.parseDate(row.get("Date")));
         tr.setPunctualityRate(util.parseDouble(row.get("Taux de régularité")));
 

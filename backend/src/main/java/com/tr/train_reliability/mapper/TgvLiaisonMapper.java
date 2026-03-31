@@ -17,8 +17,8 @@ public class TgvLiaisonMapper {
         TrainRegularity tr = new TrainRegularity();
 
         tr.setTrainType("TGV");
-        tr.setDataSetType("LIAISON");
-        tr.setLabel(row.get("Départ") + " -> " + row.get("Arrivée"));
+        tr.setDataSetType(row.get("Service").toUpperCase());
+        tr.setLabel(row.get("Gare de départ") + " -/- " + row.get("Gare d'arrivée"));
         tr.setDate(util.parseDate(row.get("Date")));
         tr.setPunctualityRate(util.parseDouble(row.get("Taux de régularité")));
 

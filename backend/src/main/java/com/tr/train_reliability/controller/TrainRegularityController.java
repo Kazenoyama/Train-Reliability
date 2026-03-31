@@ -38,4 +38,15 @@ public class TrainRegularityController {
         return ResponseEntity.ok(trs.getTrainsfilterBy(trainType, dataSetType, label, from, to,pageable ));
     }
 
+    @GetMapping("/ranking")
+    public ResponseEntity<Page<TrainRegularity>> rankingBest(
+            Pageable pageable,
+            @RequestParam(required = false) String trainType,
+            @RequestParam(required = false) String dataSetType,
+            @RequestParam(required = false) String label,
+            @RequestParam(required = false) LocalDate from
+    ){
+        return ResponseEntity.ok(trs.rankingbyBest(trainType, dataSetType, label, from, pageable));
+    }
+
 }

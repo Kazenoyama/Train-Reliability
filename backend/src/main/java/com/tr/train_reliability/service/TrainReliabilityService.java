@@ -5,7 +5,9 @@ import com.tr.train_reliability.repository.TrainRegularityRepository;
 import com.tr.train_reliability.utility.TrainSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Component;
 
@@ -27,6 +29,24 @@ public class TrainReliabilityService {
                         .and(TrainSpecifications.hasLabel(label))
                         .and(TrainSpecifications.isBetweenDates(from, to)),
                 pageable);
+    }
+
+    public Page<TrainRegularity> rankingbyBest(String trainType, String dataSetType, String label, LocalDate from, Pageable pageable){
+        Sort sort = Sort.by(Sort.Order.desc("punctualityRate").nullsLast());
+
+        Pageable sortByPunctuality = PageRequest.of(
+                pageable.getPageNumber(),
+                pageable.getPageSize(),
+                sort
+        );
+
+        return tr.findAll(
+                Specification.where(TrainSpecifications.hasTrainType(trainType))
+                        .and(TrainSpecifications.hasDataSetType(dataSetType))
+                        .and(TrainSpecifications.hasLabel(label))
+                        .and(TrainSpecifications.isBetweenDates(from, from)),
+                sortByPunctuality
+        );
     }
 
 }
