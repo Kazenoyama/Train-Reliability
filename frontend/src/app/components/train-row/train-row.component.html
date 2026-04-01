@@ -1,0 +1,77 @@
+<div class="train-row" [class.train-row--expanded]="isExpanded" (click)="toggle()">
+
+  <div class="train-row__rank">
+    <span [class.train-row__rank--top3]="rank <= 3">#{{ rank }}</span>
+  </div>
+
+  <div class="train-row__info">
+    <div class="train-row__label">{{ train.label }}</div>
+    <div class="train-row__meta">
+      <span class="tag">{{ train.trainType }}</span>
+      <span class="tag tag--light">{{ train.dataSetType }}</span>
+    </div>
+  </div>
+
+  <div class="train-row__score">
+    <div class="train-row__bar-container">
+      <div class="train-row__bar"
+           [style.width.%]="(train.punctualityRate)"
+           [class.train-row__bar--good]="train.punctualityRate >= 0.9"
+           [class.train-row__bar--ok]="train.punctualityRate >= 0.80 && train.punctualityRate < 0.9"
+           [class.train-row__bar--bad]="train.punctualityRate < 0.80">
+      </div>
+    </div>
+    <span class="train-row__percent">{{ (train.punctualityRate == null ? 0.0 : train.punctualityRate).toFixed(2) }}%</span>
+  </div>
+
+  <mat-icon class="train-row__chevron" [class.train-row__chevron--open]="isExpanded">
+    expand_more
+  </mat-icon>
+
+</div>
+<div class="train-row__panel" [hidden]="!isExpanded" (click)="$event.stopPropagation()">
+
+  <div class="train-row__date-form" [formGroup]="dateRangeForm">
+    <h4>Évolution sur la période</h4>
+
+    <div class="train-row__date-inputs">
+
+      <mat-form-field appearance="outline">
+        <mat-label>Du</mat-label>
+        <input matInput
+               [matDatepicker]="pickerFrom"
+               [min]="minDate"
+               [max]="maxDate"
+               [matDatepickerFilter]="firstOfMonthFilter"
+               formControlName="from">
+        <mat-datepicker-toggle matSuffix [for]="pickerFrom"></mat-datepicker-toggle>
+        <mat-datepicker #pickerFrom startView="multi-year"></mat-datepicker>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Au</mat-label>
+        <input matInput
+               [matDatepicker]="pickerTo"
+               [min]="minDate"
+               [max]="maxDate"
+               [matDatepickerFilter]="firstOfMonthFilter"
+               formControlName="to">
+        <mat-datepicker-toggle matSuffix [for]="pickerTo"></mat-datepicker-toggle>
+        <mat-datepicker #pickerTo startView="multi-year"></mat-datepicker>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary"
+              [disabled]="dateRangeForm.invalid || isLoadingChart"
+              (click)="loadChart()">
+        <mat-spinner *ngIf="isLoadingChart" diameter="20"></mat-spinner>
+        <mat-icon *ngIf="!isLoadingChart">bar_chart</mat-icon>
+        {{ isLoadingChart ? 'Chargement...' : 'Afficher' }}
+      </button>
+    </div>
+  </div>
+
+  <div class="train-row__chart-container" [hidden]="!chartInstance && !isLoadingChart">
+    <canvas #chartCanvas></canvas>
+  </div>
+
+</div>

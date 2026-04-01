@@ -1,0 +1,48 @@
+<div class="filter-bar" [formGroup]="filterForm">
+
+  <div class="filter-bar__title">
+    <mat-icon>train</mat-icon>
+    <span>Train reliability with SNCF open database</span>
+  </div>
+
+  <div class="filter-bar__fields">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Train Type</mat-label>
+      <input matInput formControlName="trainType" placeholder="ex: TGV">
+      <mat-icon matSuffix>directions_railway</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Dataset</mat-label>
+      <input matInput formControlName="dataSetType" placeholder="ex: Réseau">
+      <mat-icon matSuffix>dataset</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Line</mat-label>
+      <input matInput formControlName="label" placeholder="ex: Paris-Lyon">
+      <mat-icon matSuffix>label</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>From</mat-label>
+      <input
+        [min]="minDate"
+        [max]="maxDate"
+        matInput [matDatepicker]="dp" formControlName="from" readonly>
+      <mat-datepicker-toggle matSuffix [for]="dp"></mat-datepicker-toggle>
+      <mat-datepicker #dp
+                      startView="multi-year"
+                      (monthSelected)="setMonthAndYear($event, dp)">
+      </mat-datepicker>
+    </mat-form-field>
+
+  </div>
+
+  <button mat-stroked-button color="warn" class="filter-bar__reset" (click)="reset()">
+    <mat-icon>clear</mat-icon>
+    Clear
+  </button>
+
+</div>

@@ -1,0 +1,40 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+
+html {
+  @include mat.theme((
+    color: (
+      theme-type: light,
+      primary: mat.$azure-palette,
+      tertiary: mat.$blue-palette,
+    ),
+    typography: Roboto,
+    density: 0,
+  ));
+}/* You can add global styles to this file, and also import other style files */
+
+/* Reset de base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background: #f0f2f5;
+  color: #212121;
+  min-height: 100vh;
+}
+
+.app-container {
+  /* FIX 1 — on passe de 900px à 100% avec un padding latéral.
+     max-width: 900px était trop restrictif sur grand écran.
+     On laisse le contenu respirer jusqu'à 1400px. */
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 24px 32px;
+}

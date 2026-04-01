@@ -8,11 +8,11 @@ import java.time.LocalDate;
 public class TrainSpecifications {
 
     public static Specification<TrainRegularity> hasTrainType(String trainType){
-        return (root, query, cb) -> trainType == null ? null : cb.equal(cb.lower(root.get("trainType")), trainType.toLowerCase());
+        return (root, query, cb) -> trainType == null ? null : cb.like(cb.lower(root.get("trainType")), trainType.toLowerCase());
     }
 
     public static Specification<TrainRegularity> hasDataSetType(String dataSetType){
-        return (root, query, cb) -> dataSetType == null ? null : cb.equal(cb.lower(root.get("dataSetType")), dataSetType.toLowerCase());
+        return (root, query, cb) -> dataSetType == null ? null : cb.like(cb.lower(root.get("dataSetType")), dataSetType.toLowerCase());
     }
 
     public static Specification<TrainRegularity> hasLabel(String label){
