@@ -37,7 +37,7 @@
     <div class="train-row__date-inputs">
 
       <mat-form-field appearance="outline">
-        <mat-label>Du</mat-label>
+        <mat-label>From</mat-label>
         <input matInput
                [matDatepicker]="pickerFrom"
                [min]="minDate"
@@ -49,7 +49,7 @@
       </mat-form-field>
 
       <mat-form-field appearance="outline">
-        <mat-label>Au</mat-label>
+        <mat-label>To</mat-label>
         <input matInput
                [matDatepicker]="pickerTo"
                [min]="minDate"
@@ -65,7 +65,7 @@
               (click)="loadChart()">
         <mat-spinner *ngIf="isLoadingChart" diameter="20"></mat-spinner>
         <mat-icon *ngIf="!isLoadingChart">bar_chart</mat-icon>
-        {{ isLoadingChart ? 'Chargement...' : 'Afficher' }}
+        {{ isLoadingChart ? 'Loading...' : 'Display' }}
       </button>
     </div>
   </div>

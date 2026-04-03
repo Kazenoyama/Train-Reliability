@@ -1,10 +1,12 @@
 import { Component, EventEmitter, OnInit, Output, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, takeUntil } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, takeUntil, map, startWith } from 'rxjs/operators';
 import { Subject } from 'rxjs';
 import { TrainFilter } from '../../models/train.model';
 import { format, startOfMonth } from 'date-fns';
 import { MatDatepicker } from '@angular/material/datepicker';
+import { TrainService } from '../../services/train.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-filter-bar',
@@ -18,7 +20,19 @@ export class FilterBarComponent implements OnInit, OnDestroy {
   filterForm!: FormGroup;
   private destroy$ = new Subject<void>();
 
-  constructor(private fb: FormBuilder) {}
+  trainLabelOptions : string[] = [];
+  filteredTrainLabelOptions!: Observable<string[]>
+
+  dataSetOptions : string[] = [];
+  filteredDataSetOptions!: Observable<string[]>
+
+  trainTypeOptions : string[] = [];
+  filteredTrainTypeOptions!: Observable<string[]>
+
+  constructor(
+    private fb: FormBuilder,
+    private ts: TrainService
+    ) {}
 
   readonly minDate = new Date(2013, 0, 1);
   readonly maxDate = new Date(2026, 1, 1);
@@ -28,12 +42,14 @@ export class FilterBarComponent implements OnInit, OnDestroy {
     return date.getDate() === 1;
   };
 
-  setMonthAndYear(normalizedMonthAndYear: Date, datepicker: MatDatepicker<Date>): void {
-    const ctrlValue = this.filterForm.get('from')?.value || new Date();
-    ctrlValue.setYear(normalizedMonthAndYear.getFullYear());
-    ctrlValue.setMonth(normalizedMonthAndYear.getMonth());
-    ctrlValue.setDate(1); // On force toujours au 1er
-    this.filterForm.get('from')?.setValue(ctrlValue);
+  setMonthAndYear(normalizedMonthAndYear: Date, datepicker: MatDatepicker<Date>, path: string): void {
+    const newDate = new Date(
+      normalizedMonthAndYear.getFullYear(),
+      normalizedMonthAndYear.getMonth(),
+      1
+    );
+    this.filterForm.get(path)?.setValue(newDate);
+
     datepicker.close();
   }
 
@@ -44,6 +60,31 @@ export class FilterBarComponent implements OnInit, OnDestroy {
       label:       [null],
       from:        [null],
     });
+
+    this.ts.getUniqueValues("Label").subscribe({
+      next:(data) => {
+        this.trainLabelOptions = data;
+        this.filteredTrainLabelOptions = this.setupAutocomplete(this.filteredTrainLabelOptions, this.trainLabelOptions, 'label');
+      },
+      error: (err) => console.error('Label error:', err)
+    })
+
+    this.ts.getUniqueValues("DataSet").subscribe({
+      next:(data) => {
+        this.dataSetOptions = data;
+        this.filteredDataSetOptions = this.setupAutocomplete(this.filteredDataSetOptions, this.dataSetOptions, 'dataSetType');
+      },
+      error: (err) => console.error('DataSet error:', err)
+    })
+
+    this.ts.getUniqueValues('TrainType').subscribe({
+      next:(data) => {
+        this.trainTypeOptions = data;
+        this.filteredTrainTypeOptions = this.setupAutocomplete(this.filteredTrainTypeOptions, this.trainTypeOptions, 'trainType');
+      },
+      error: (err) => console.error('DataSet error:', err)
+    })
+
 
     this.filterForm.valueChanges.pipe(
       debounceTime(400),
@@ -59,6 +100,22 @@ export class FilterBarComponent implements OnInit, OnDestroy {
       }
       this.filtersChanged.emit(filter);
     });
+  }
+
+  private setupAutocomplete(filteredOption : Observable<string[]>,options : string[], path: string) {
+    filteredOption = this.filterForm.get(path)!.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter((value || ''), options))
+    );
+
+    return filteredOption;
+  }
+
+  private _filter(value: string, options : string[]): string[] {
+    const filterValue = value.toLowerCase();
+    return options.filter(option =>
+      option.toLowerCase().includes(filterValue)
+    );
   }
 
   reset(): void {

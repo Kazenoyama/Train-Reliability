@@ -7,6 +7,7 @@ import { MatFormFieldModule }       from '@angular/material/form-field';
 import { MatInputModule }           from '@angular/material/input';
 import { MatButtonModule }          from '@angular/material/button';
 import { MatIconModule }            from '@angular/material/icon';
+import { MatAutocompleteModule }    from '@angular/material/autocomplete'
 import { MatDatepickerModule }      from '@angular/material/datepicker';
 import { MatNativeDateModule }      from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -33,6 +34,7 @@ import { TrainRowComponent }       from './components/train-row/train-row.compon
     ReactiveFormsModule,
     InfiniteScrollModule,
     MatFormFieldModule,
+    MatAutocompleteModule,
     MatInputModule,
     MatButtonModule,
     MatIconModule,

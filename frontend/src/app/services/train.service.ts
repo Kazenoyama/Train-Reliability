@@ -28,6 +28,10 @@ export class TrainService {
       .set('page', '0')
       .set('size', '200')
 
-    return this.http.get<PageResponse<TrainRegularity>>(`${this.baseUrl}/filterby`, { params });
+    return this.http.get<PageResponse<TrainRegularity>>(`${this.baseUrl}/chartData`, { params });
+  }
+
+  getUniqueValues(category: 'Label' | 'DataSet' | 'TrainType'): Observable<string[]> {
+    return this.http.get<string[]>(`${this.baseUrl}/unique/${category}`);
   }
 }

@@ -20,8 +20,11 @@ public class TgvLiaisonMapper {
         tr.setDataSetType(row.get("Service").toUpperCase());
         tr.setLabel(row.get("Gare de départ") + " -/- " + row.get("Gare d'arrivée"));
         tr.setDate(util.parseDate(row.get("Date")));
-        tr.setPunctualityRate(util.parseDouble(row.get("Taux de régularité")));
-
+        tr.setPunctualityRate((1
+                - (util.parseDouble( row.get("Nombre de trains en retard à l'arrivée"))
+                /(util.parseDouble(row.get("Nombre de circulations prévues")) - util.parseDouble(row.get("Nombre de trains annulés")))
+        ))
+                *100);
         return tr;
     }
 }
