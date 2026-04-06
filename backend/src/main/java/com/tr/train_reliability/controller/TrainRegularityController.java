@@ -6,12 +6,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @RestController
 @RequestMapping("/stats")
@@ -44,9 +42,35 @@ public class TrainRegularityController {
             @RequestParam(required = false) String trainType,
             @RequestParam(required = false) String dataSetType,
             @RequestParam(required = false) String label,
-            @RequestParam(required = false) LocalDate from
+            @RequestParam(required = false) LocalDate from,
+            @RequestParam(required = false) LocalDate to
     ){
-        return ResponseEntity.ok(trs.rankingbyBest(trainType, dataSetType, label, from, pageable));
+        return ResponseEntity.ok(trs.rankingbyBest(trainType, dataSetType, label, from, to, pageable));
+    }
+
+    @GetMapping("/chartData")
+    public ResponseEntity<Page<TrainRegularity>> chartData(
+            Pageable pageable,
+            @RequestParam String label,
+            @RequestParam LocalDate from,
+            @RequestParam LocalDate to
+            ){
+
+        return ResponseEntity.ok(trs.chartDataSorted(label, from, to, pageable));
+    }
+
+    @GetMapping("/unique/{category}")
+    public ResponseEntity<List<String>> getUniqueValue(@PathVariable String category){
+        switch (category.toLowerCase()){
+            case "label":
+                return ResponseEntity.ok(trs.uniqueLabel());
+            case "dataset":
+                return ResponseEntity.ok(trs.uniqueDataSet());
+            case "traintype":
+                return ResponseEntity.ok(trs.uniqueTrainType());
+            default:
+                return ResponseEntity.badRequest().build();
+        }
     }
 
 }

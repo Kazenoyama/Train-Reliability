@@ -1,0 +1,90 @@
+<div class="filter-bar" [formGroup]="filterForm">
+
+  <div class="filter-bar__title">
+    <mat-icon>train</mat-icon>
+    <span>Train reliability with SNCF open database</span>
+  </div>
+
+  <div class="filter-bar__fields">
+
+    <mat-form-field appearance="outline">
+      <mat-label>Line</mat-label>
+      <input type="text"
+             placeholder="ex: Paris-Lyon"
+             matInput
+             formControlName="label"
+             [matAutocomplete]="autoLabel">
+
+      <mat-autocomplete #autoLabel="matAutocomplete">
+        @for (option of (filteredTrainLabelOptions | async); track option) {
+          <mat-option [value]="option">
+            {{ option }}
+          </mat-option>
+        }
+      </mat-autocomplete>
+
+      <mat-icon matSuffix>label</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Train Type</mat-label>
+      <input type="text"
+             placeholder="ex: TGV"
+             matInput
+             formControlName="trainType"
+             [matAutocomplete]="autoTrainType">
+
+      <mat-autocomplete #autoTrainType="matAutocomplete">
+        @for (option of (filteredTrainTypeOptions | async); track option) {
+          <mat-option [value]="option">
+            {{ option }}
+          </mat-option>
+        }
+      </mat-autocomplete>
+
+      <mat-icon matSuffix>directions_railway</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Dataset</mat-label>
+      <input type="text"
+             placeholder="ex: Réseau"
+             matInput
+             formControlName="dataSetType"
+             [matAutocomplete]="autoDataSet">
+
+      <mat-autocomplete #autoDataSet="matAutocomplete">
+        @for (option of (filteredDataSetOptions | async); track option) {
+          <mat-option [value]="option">
+            {{ option }}
+          </mat-option>
+        }
+      </mat-autocomplete>
+
+      <mat-icon matSuffix>dataset</mat-icon>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>From</mat-label>
+      <input
+        [min]="minDate"
+        [max]="maxDate"
+        placeholder="MM/dd/YYYY"
+        matInput [matDatepicker]="dpFrom" formControlName="from">
+      <mat-datepicker-toggle matSuffix [for]="dpFrom"></mat-datepicker-toggle>
+      <mat-datepicker #dpFrom
+                      startView="multi-year"
+                      (monthSelected)="setMonthAndYear($event, dpFrom, 'from')">
+      </mat-datepicker>
+    </mat-form-field>
+
+    <button mat-fab
+            color="warn"
+            class="filter-bar__reset"
+            (click)="reset()">
+      <mat-icon>delete</mat-icon>
+    </button>
+
+  </div>
+
+</div>
